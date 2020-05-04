@@ -2,3 +2,4 @@
 .env
 *.db
 .spotify_token_cache.json
+.docker-cargo/
