@@ -37,7 +37,6 @@ impl PlayHistoryManager {
             .values(&new_play_history)
             .execute(&self.conn)?;
 
-        println!("insert: {}", dt_iso8601);
         Ok(())
     }
 
