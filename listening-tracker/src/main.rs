@@ -9,6 +9,7 @@ use std::env;
 use anyhow::Result;
 use chrono::SecondsFormat;
 use itertools::Itertools as _;
+use serde_json::json;
 
 mod schema;
 mod models;
@@ -35,7 +36,8 @@ async fn main() -> Result<()> {
     let items = spotify_manager.get_played_histories(history_limit).await?;
     for item in items.iter() {
         let played_at = item.played_at.to_rfc3339_opts(SecondsFormat::Millis, true);
-        let body = format!("{:?}", item);
+        let body = json!(item).to_string();
+        debug!("{}", &body);
         let (history, created) = history_manager.get_or_create(&played_at, &body)?;
         if created {
             let artist = item.track.artists.iter()
